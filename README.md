@@ -162,7 +162,7 @@ https://docs.docker.com/install/
 docker run --rm -v $(pwd):/code \
   --mount type=volume,source=$(basename $(pwd))_cache,target=/code/target \
   --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-  confio/cosmwasm-opt:0.7.0
+  confio/cosmwasm-opt:0.7.3
 ```
 The contract wasm needs to be optimized to get a smaller footprint. Cosmwasm notes state the contract would be too large for the blockchain unless optimized. This example contract.wasm is 1.8M before optimizing, 90K after.
 
@@ -178,9 +178,12 @@ Upload the optimized contract.wasm to the enigma-testnet:
 enigmacli tx compute store contract.wasm --from developer --gas auto -y
 ```
 
-Uploading verified code requires 2 additional params, source and builder
-```
+You can also store [verified code](https://www.cosmwasm.com/docs/tooling/verify)
 
+Uploading verified code requires 2 additional params, source and builder.
+
+```
+enigmacli tx compute store contract.wasm --builder="confio/cosmwasm-opt:0.7.3" --source="https://crates.io/api/v1/crates/<your-project-name>/0.0.1/download" --from developer --gas auto -y
 ```
 
 ### Querying the Smart Contract and Code
@@ -345,6 +348,10 @@ docker exec enigmadev \
 [Name Service Introduction](https://www.cosmwasm.com/docs/name-service/intro)
 
 [name-app repo](https://github.com/CosmWasm/name-app)
+
+[Cosmos SDK nameservice tutorial](https://tutorials.cosmos.network/nameservice/tutorial/00-intro.html)
+
+[CosmWasm nameservice example](https://github.com/CosmWasm/cosmwasm-examples/tree/master/nameservice)
 
 - REPL
 
